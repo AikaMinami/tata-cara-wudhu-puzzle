@@ -11,6 +11,7 @@ public class DragAndDrop_ : MonoBehaviour
     public GameObject SelectedPiece;
     public int pieceAmount =4;
     public GameObject hintImage;
+    public AudioSource SFXPuzzle;
     int OIL = 1;    
     int currentLevel;
     public int PlacedPieces = 0;
@@ -43,6 +44,11 @@ public class DragAndDrop_ : MonoBehaviour
     public void BacktoMenu()
     {
         SceneManager.LoadScene("Menu");
+    }
+
+    public void PlaySFXDrop()
+    {
+        SFXPuzzle.Play();
     }
 }
 

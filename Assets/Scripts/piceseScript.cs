@@ -26,6 +26,7 @@ public class piceseScript : MonoBehaviour
                 {
                     transform.position = RightPosition;
                     _leanDragTranslate.enabled = false;
+                    Camera.main.GetComponent<DragAndDrop_>().PlaySFXDrop();
                     InRightPosition = true;
                     GetComponent<SortingGroup>().sortingOrder = 0;
                     Camera.main.GetComponent<DragAndDrop_>().PlacedPieces++;

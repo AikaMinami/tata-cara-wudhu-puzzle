@@ -48,4 +48,9 @@ public class menuScript_ : MonoBehaviour
         SceneManager.LoadScene(sceneName);
     }
 
+    public void ExitGame()
+    {
+        Application.Quit();
+    }
+
 }
