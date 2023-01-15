@@ -20,7 +20,6 @@ public class DragAndDrop_ : MonoBehaviour
         currentLevel = PlayerPrefs.GetInt("Level");
         for (int i = 0;i < pieceAmount; i++)
         {
-            // GameObject.FindGameObjectWithTag("ImageMask").GetComponent<SpriteRenderer>().sprite = Levels[currentLevel];
             GameObject.Find("Puzzle Piece").transform.Find("Piece (" + i + ")").transform.Find("Puzzle").GetComponent<SpriteRenderer>().sprite = Levels[currentLevel];
             hintImage.GetComponent<SpriteRenderer>().sprite = Levels[currentLevel];
         }
@@ -28,8 +27,29 @@ public class DragAndDrop_ : MonoBehaviour
     }
 
     void Update()
+    {         
+        if (PlacedPieces == pieceAmount)
+        {
+            completedAudio.Play();
+            PlacedPieces = 0;
+        }
+    }
+    public void NextLevel()
     {
-        // bool fal = false;
+        PlayerPrefs.SetInt("Level", PlayerPrefs.GetInt("Level")+1);
+        SceneManager.LoadScene("Game");
+    }
+
+    public void BacktoMenu()
+    {
+        SceneManager.LoadScene("Menu");
+    }
+}
+
+// === Junk Lines To Drag and Drop using mouse ===
+
+
+ // bool fal = false;
         // if (Input.GetMouseButtonDown(0) && fal)
         // {
         //     RaycastHit2D hit = Physics2D.Raycast(Camera.main.ScreenToWorldPoint(Input.mousePosition), Vector2.zero);
@@ -61,21 +81,4 @@ public class DragAndDrop_ : MonoBehaviour
         // {
         //     Vector3 MousePoint = Camera.main.ScreenToWorldPoint(Input.mousePosition);
         //     SelectedPiece.transform.position = new Vector3(MousePoint.x,MousePoint.y,0);
-        // }             
-        if (PlacedPieces == pieceAmount)
-        {
-            completedAudio.Play();
-            PlacedPieces = 0;
-        }
-    }
-    public void NextLevel()
-    {
-        PlayerPrefs.SetInt("Level", PlayerPrefs.GetInt("Level")+1);
-        SceneManager.LoadScene("Game");
-    }
-
-    public void BacktoMenu()
-    {
-        SceneManager.LoadScene("Menu");
-    }
-}
+        // }    

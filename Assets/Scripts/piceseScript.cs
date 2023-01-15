@@ -8,10 +8,12 @@ public class piceseScript : MonoBehaviour
     private Vector3 RightPosition;
     public bool InRightPosition;
     public bool Selected;
+    private Lean.Touch.LeanDragTranslate _leanDragTranslate;
     void Start()
     {
         RightPosition = transform.position;
         transform.position = new Vector3(Random.Range(5.5f, 7.25f), Random.Range(-1.5f, 1.5f));
+        _leanDragTranslate = this.gameObject.GetComponent<Lean.Touch.LeanDragTranslate>();
     }
     
     void Update()
@@ -23,6 +25,7 @@ public class piceseScript : MonoBehaviour
                 if (InRightPosition == false)
                 {
                     transform.position = RightPosition;
+                    _leanDragTranslate.enabled = false;
                     InRightPosition = true;
                     GetComponent<SortingGroup>().sortingOrder = 0;
                     Camera.main.GetComponent<DragAndDrop_>().PlacedPieces++;
