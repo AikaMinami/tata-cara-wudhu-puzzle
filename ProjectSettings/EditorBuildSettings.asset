@@ -12,6 +12,9 @@ EditorBuildSettings:
     path: Assets/Scenes/PuzzleWudhu.unity
     guid: 2cda990e2423bbf4892e6590ba056729
   - enabled: 1
-    path: Assets/Scenes/Videos.unity
+    path: Assets/Scenes/VideoTepuk.unity
     guid: 34ec9b7ce13b13d42b2753e7261f886d
+  - enabled: 1
+    path: Assets/Scenes/VideoTataCara.unity
+    guid: 667d06ac02841ae4ba43f511ca2bf015
   m_configObjects: {}
