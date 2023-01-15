@@ -43,5 +43,9 @@ public class menuScript_ : MonoBehaviour
         PlayGame();
     }
 
+    public void GoToScene(string sceneName)
+    {
+        SceneManager.LoadScene(sceneName);
+    }
 
 }

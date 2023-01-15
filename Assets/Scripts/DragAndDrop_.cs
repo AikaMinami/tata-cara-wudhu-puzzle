@@ -7,7 +7,7 @@ public class DragAndDrop_ : MonoBehaviour
 {
     public Sprite[] Levels;
 
-    public GameObject EndMenu;
+    public AudioSource completedAudio;
     public GameObject SelectedPiece;
     public int pieceAmount =4;
     public GameObject hintImage;
@@ -18,7 +18,6 @@ public class DragAndDrop_ : MonoBehaviour
     {
         Debug.Log("Current Level:" + PlayerPrefs.GetInt("Level"));
         currentLevel = PlayerPrefs.GetInt("Level");
-        EndMenu.SetActive(false);
         for (int i = 0;i < pieceAmount; i++)
         {
             // GameObject.FindGameObjectWithTag("ImageMask").GetComponent<SpriteRenderer>().sprite = Levels[currentLevel];
@@ -63,10 +62,11 @@ public class DragAndDrop_ : MonoBehaviour
         //     Vector3 MousePoint = Camera.main.ScreenToWorldPoint(Input.mousePosition);
         //     SelectedPiece.transform.position = new Vector3(MousePoint.x,MousePoint.y,0);
         // }             
-        // if (PlacedPieces == pieceAmount)
-        // {
-        //     EndMenu.SetActive(true);
-        // }
+        if (PlacedPieces == pieceAmount)
+        {
+            completedAudio.Play();
+            PlacedPieces = 0;
+        }
     }
     public void NextLevel()
     {
