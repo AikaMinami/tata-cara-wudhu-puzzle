@@ -46,6 +46,7 @@ public class menuScript_ : MonoBehaviour
     public void GoToScene(string sceneName)
     {
         SceneManager.LoadScene(sceneName);
+        SceneManager.LoadSceneAsync("");
     }
 
     public void ExitGame()

@@ -14,11 +14,11 @@ public class LinesDrawer : MonoBehaviour
 	public float linePointsMinDistance;
 	public float lineWidth;
 
-	public Text texts;
+	// public Text texts;
 	Line currentLine;
 
 	Camera cam;
-
+	int i = 0;
 
 	void Start ( ) {
 		cam = Camera.main;
@@ -27,16 +27,17 @@ public class LinesDrawer : MonoBehaviour
 
 	void Update ( ) {
 		Debug.Log(currentLine);
-		if ( Input.GetMouseButtonDown ( 0 ) )
+		Touch touch = Input.GetTouch(0);
+		if ( Input.GetMouseButtonDown ( 0 ) || touch.phase == TouchPhase.Began)
         {
             Debug.Log("Begin");
 			BeginDraw ( );
         }
-		if ( currentLine != null )
+		if ( currentLine != null || touch.phase == TouchPhase.Moved )
             {Debug.Log("Process");
 			Draw ( );}
 
-		if ( Input.GetMouseButtonUp ( 0 ) )
+		if ( Input.GetMouseButtonUp ( 0 ) || touch.phase == TouchPhase.Ended)
             {Debug.Log("End");
 			EndDraw ( );}
 	}
@@ -46,7 +47,7 @@ public class LinesDrawer : MonoBehaviour
 		currentLine = Instantiate ( linePrefab, this.transform ).GetComponent <Line> ( );
 
 		//Set line properties
-		currentLine.UsePhysics ( false );
+		// currentLine.UsePhysics ( false );
 		currentLine.SetLineColor ( lineColor );
 		currentLine.SetPointsMinDistance ( linePointsMinDistance );
 		currentLine.SetLineWidth ( lineWidth );
@@ -54,6 +55,7 @@ public class LinesDrawer : MonoBehaviour
 	}
 	// Draw ----------------------------------------------------
 	void Draw ( ) {
+		i++;
 		Vector3 screenPosition = Input.mousePosition;
 		screenPosition.x = screenPosition.x - 0.49f;
 		// Vector3 screenPosition = Input.GetTouch(0).position;
@@ -65,15 +67,15 @@ public class LinesDrawer : MonoBehaviour
 		// transform.position = worldPosition;
 
 		Vector3 mousePosition = cam.ScreenToWorldPoint ( screenPosition );
-		texts.text = ""+mousePosition;
+		// texts.text = ""+mousePosition + "i = " + i;
 		Debug.Log("Pos" + mousePosition);
-		currentLine.AddPoint ( mousePosition );
 		//Check if mousePos hits any collider with layer "CantDrawOver", if true cut the line by calling EndDraw( )
 		// RaycastHit2D hit = Physics2D.CircleCast ( mousePosition, lineWidth / 3f, Vector2.zero, 1f, cantDrawOverLayer );
 
 		// if ( hit )
-		// 	EndDraw ( );
+			// EndDraw ( );
 		// else
+		currentLine.AddPoint ( mousePosition );
 	}
 	// End Draw ------------------------------------------------
 	void EndDraw ( ) {
