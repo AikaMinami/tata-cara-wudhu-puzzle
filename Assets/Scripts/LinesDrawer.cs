@@ -14,6 +14,7 @@ public class LinesDrawer : MonoBehaviour
 	public float linePointsMinDistance;
 	public float lineWidth;
 
+	public List<Line> lineLists;
 	// public Text texts;
 	Line currentLine;
 
@@ -27,19 +28,22 @@ public class LinesDrawer : MonoBehaviour
 
 	void Update ( ) {
 		Debug.Log(currentLine);
-		Touch touch = Input.GetTouch(0);
-		if ( Input.GetMouseButtonDown ( 0 ) || touch.phase == TouchPhase.Began)
-        {
-            Debug.Log("Begin");
-			BeginDraw ( );
-        }
-		if ( currentLine != null || touch.phase == TouchPhase.Moved )
-            {Debug.Log("Process");
-			Draw ( );}
+		if(Input.touchCount > 0)
+		{
+			Touch touch = Input.GetTouch(0);
+			if ( Input.GetMouseButtonDown ( 0 ) || touch.phase == TouchPhase.Began)
+			{
+				Debug.Log("Begin");
+				BeginDraw ( );
+			}
+			if ( currentLine != null || touch.phase == TouchPhase.Moved )
+				{Debug.Log("Process");
+				Draw ( );}
 
-		if ( Input.GetMouseButtonUp ( 0 ) || touch.phase == TouchPhase.Ended)
-            {Debug.Log("End");
-			EndDraw ( );}
+			if ( Input.GetMouseButtonUp ( 0 ) || touch.phase == TouchPhase.Ended)
+				{Debug.Log("End");
+				EndDraw ( );}
+		}
 	}
 
 	// Begin Draw ----------------------------------------------
@@ -51,20 +55,18 @@ public class LinesDrawer : MonoBehaviour
 		currentLine.SetLineColor ( lineColor );
 		currentLine.SetPointsMinDistance ( linePointsMinDistance );
 		currentLine.SetLineWidth ( lineWidth );
-
+		lineLists.Add(currentLine);
 	}
 	// Draw ----------------------------------------------------
 	void Draw ( ) {
 		i++;
-		Vector3 screenPosition = Input.mousePosition;
+		// Vector3 screenPosition = Input.mousePosition;
+		Vector3 screenPosition = Input.GetTouch(0).position;
 		screenPosition.x = screenPosition.x - 0.49f;
-		// Vector3 screenPosition = Input.GetTouch(0).position;
 		// screenPosition.z = Camera.main.transform.position.y - transform.position.y;
 		
 		screenPosition.z = Camera.main.nearClipPlane;
 	
-		// Vector3 worldPosition = Camera.main.ScreenToWorldPoint (screenPosition);
-		// transform.position = worldPosition;
 
 		Vector3 mousePosition = cam.ScreenToWorldPoint ( screenPosition );
 		// texts.text = ""+mousePosition + "i = " + i;
@@ -90,5 +92,20 @@ public class LinesDrawer : MonoBehaviour
 				currentLine = null;
 			}
 		}
+	}
+
+	public void ResetLine()
+	{
+		foreach (Line line in lineLists)
+		{
+			Destroy(line.gameObject);			
+		}
+	
+		lineLists.Clear();
+	}
+
+	public void ClearList()
+	{
+		lineLists.Clear();
 	}
 }

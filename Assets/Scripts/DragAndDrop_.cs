@@ -8,15 +8,19 @@ public class DragAndDrop_ : MonoBehaviour
     public Sprite[] Levels;
 
     public AudioSource completedAudio;
+    public AudioSource tryAgainAudio;
+    public AudioSource SFXPuzzle;
     public GameObject SelectedPiece;
     public int pieceAmount =4;
     public GameObject hintImage;
-    public AudioSource SFXPuzzle;
     int OIL = 1;    
     int currentLevel;
     public int PlacedPieces = 0;
+    public int OutplacedPieces = 0;
+    bool isCalled = false;
     void Start()
     {
+        PlacedPieces = OutplacedPieces = 0;
         Debug.Log("Current Level:" + PlayerPrefs.GetInt("Level"));
         currentLevel = PlayerPrefs.GetInt("Level");
         for (int i = 0;i < pieceAmount; i++)
@@ -33,6 +37,13 @@ public class DragAndDrop_ : MonoBehaviour
         {
             completedAudio.Play();
             PlacedPieces = 0;
+        } 
+        if((OutplacedPieces+PlacedPieces) == pieceAmount && OutplacedPieces > 0){
+            if(PlacedPieces < pieceAmount && !isCalled)
+            {
+                tryAgainAudio.Play();
+                isCalled = true;
+            }
         }
     }
     public void NextLevel()
@@ -52,39 +63,3 @@ public class DragAndDrop_ : MonoBehaviour
     }
 }
 
-// === Junk Lines To Drag and Drop using mouse ===
-
-
- // bool fal = false;
-        // if (Input.GetMouseButtonDown(0) && fal)
-        // {
-        //     RaycastHit2D hit = Physics2D.Raycast(Camera.main.ScreenToWorldPoint(Input.mousePosition), Vector2.zero);
-        //     if (hit.transform.CompareTag("Puzzle"))
-        //     {
-        //         if (!hit.transform.GetComponent<piceseScript>().InRightPosition)
-        //         {
-        //             SelectedPiece = hit.transform.gameObject;
-        //             SelectedPiece.GetComponent<piceseScript>().Selected = true;
-        //             SelectedPiece.GetComponent<SortingGroup>().sortingOrder = OIL;
-        //             OIL++;
-        //         }
-        //     } 
-        //     else 
-        //     {
-        //         Debug.Log("dont do anything");
-        //     }
-        // }
-
-        // if (Input.GetMouseButtonUp(0) && fal)
-        // {
-        //     if (SelectedPiece != null)
-        //     {
-        //         SelectedPiece.GetComponent<piceseScript>().Selected = false;
-        //         SelectedPiece = null;
-        //     }
-        // }
-        // if (SelectedPiece != null && fal)
-        // {
-        //     Vector3 MousePoint = Camera.main.ScreenToWorldPoint(Input.mousePosition);
-        //     SelectedPiece.transform.position = new Vector3(MousePoint.x,MousePoint.y,0);
-        // }    
