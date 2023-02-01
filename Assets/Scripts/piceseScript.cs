@@ -14,16 +14,41 @@ public class piceseScript : MonoBehaviour
     private bool isCalled = false;
     [SerializeField]
     private bool isWronglyPlaced = false;
-
+    bool isThisLevelFinished;
     void Start()
     {
         RightPosition = transform.position;
-        transform.position = new Vector3(Random.Range(5.5f, 7.25f), Random.Range(-1.5f, 1.5f));
+        isThisLevelFinished = Camera.main.GetComponent<menuScript_>().GetPuzzleIsFinish(PlayerPrefs.GetInt("Level"));
+        Debug.Log("Is this level finished "+isThisLevelFinished);
         _leanDragTranslate = this.gameObject.GetComponent<Lean.Touch.LeanDragTranslate>();
         _leanSelectableByFinger = this.gameObject.GetComponent<Lean.Touch.LeanSelectableByFinger>();
+        if(!isThisLevelFinished)
+        {
+            transform.position = new Vector3(Random.Range(5.5f, 7.25f), Random.Range(-1.5f, 1.5f));
+        } else 
+        {
+            _leanDragTranslate.enabled = false;
+        }
     }
     
     void Update()
+    {
+        if(!isThisLevelFinished)
+        {
+            CheckDistance();
+        }
+    }
+
+    void ReduceOutside()
+    {
+        if(isWronglyPlaced)
+        {
+            Camera.main.GetComponent<DragAndDrop_>().OutplacedPieces--;
+            isWronglyPlaced = false;
+        }
+    }
+
+    void CheckDistance()
     {
         if (Vector3.Distance(transform.position, RightPosition) < 0.5f)
         {
@@ -49,15 +74,6 @@ public class piceseScript : MonoBehaviour
                 isCalled = true;
                 isWronglyPlaced = true;
             }
-        }
-    }
-
-    void ReduceOutside()
-    {
-        if(isWronglyPlaced)
-        {
-            Camera.main.GetComponent<DragAndDrop_>().OutplacedPieces--;
-            isWronglyPlaced = false;
         }
     }
 }
