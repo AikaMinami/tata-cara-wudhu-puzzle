@@ -9,11 +9,13 @@ public class menuScript_ : MonoBehaviour
     static int totalLevel = 8;
     public static bool[] isDone = new bool[totalLevel];
     public static float timer;
-    public float expectedTime = 60f;
+    private float _expectedTimeGold = 60f, _expectedTimeSilver = 120f;
     public Text playerName, welcomeText, alertText, placeholderText, timerText;
     public GameObject setNamePanel;
     public Button PrevButton, NextButton;
     private bool _isTimerPaused;
+    public Sprite[] medalSprite;
+    public Image medalImage;
 
     private void Start() {
         currentLevel = PlayerPrefs.GetInt("Level");
@@ -141,13 +143,6 @@ public class menuScript_ : MonoBehaviour
         return true;
     }
 
-    public bool IsUnderExpectedTime()
-    {
-        if(timer>expectedTime)
-            return false;
-            
-        return true;
-    }
     void SetAllIndexFalse()
     {
         for(int i=0;i<isDone.Length;i++)
@@ -167,9 +162,17 @@ public class menuScript_ : MonoBehaviour
         _isTimerPaused = false;
     }
 
-    public float GetTimerData()
+    public void SetMedal()
     {
-        float timerData = timer;
-        return timerData;
+        if(timer<_expectedTimeGold)
+        {
+            medalImage.sprite = medalSprite[0];
+        } else if(timer<_expectedTimeSilver)
+        {
+            medalImage.sprite = medalSprite[1];
+        } else
+        {
+            medalImage.sprite = medalSprite[2];
+        }
     }
 }

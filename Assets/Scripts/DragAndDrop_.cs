@@ -11,7 +11,7 @@ public class DragAndDrop_ : MonoBehaviour
     public AudioSource tryAgainAudio;
     public AudioSource SFXPuzzle;
     public GameObject GameCompletePanel;
-    public Text GameCompleteNameText, GameCompleteTimerText;
+    public Text GameCompleteNameText;
     public int pieceAmount =4;
     public GameObject hintImage;
     int OIL = 1;    
@@ -45,8 +45,6 @@ public class DragAndDrop_ : MonoBehaviour
             if(menuscript_.IsAllIndexTrue())
             {
                 menuscript_.PauseTimer();
-                float timerData = menuscript_.GetTimerData();
-                PlayerPrefs.SetFloat("Duration", timerData);
                 StartCoroutine(GameComplete());
             }
         } 
@@ -69,18 +67,15 @@ public class DragAndDrop_ : MonoBehaviour
 
     IEnumerator GameComplete()
     {
-        if(menuscript_.IsUnderExpectedTime()) 
-        {
-            ActivateFirework();
-        }
+        ActivateFirework();
         yield return new WaitForSeconds(3f);
         OpenGameCompletePanel();
         PlayerPrefs.SetInt("Level", 0);
     }
     void OpenGameCompletePanel()
     {
-        GameCompleteNameText.text = PlayerPrefs.GetString("PlayerName");
-        GameCompleteTimerText.text = ((int)PlayerPrefs.GetFloat("Duration")/60)+":"+((int)PlayerPrefs.GetFloat("Duration")%60);
+        menuscript_.SetMedal();
+        GameCompleteNameText.text = "Selamat, " + PlayerPrefs.GetString("PlayerName") + "!";
         GameCompletePanel.SetActive(true);
     }
     public void NextLevel()
