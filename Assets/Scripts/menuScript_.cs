@@ -189,7 +189,7 @@ public class menuScript_ : MonoBehaviour
         {
             GameObject star = Instantiate(starPrefab, starParent.position, Quaternion.identity);
             star.transform.localScale = new Vector3(1,1,1);
-            star.transform.parent = starParent;
+            star.transform.SetParent(starParent, false);
         }
         
     }
