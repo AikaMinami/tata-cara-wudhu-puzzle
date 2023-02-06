@@ -9,9 +9,10 @@ public class menuScript_ : MonoBehaviour
     static int totalLevel = 8;
     public static bool[] isDone = new bool[totalLevel];
     public static float timer;
-    private float _expectedTimeGold = 60f, _expectedTimeSilver = 120f;
+    private float _expectedTimePerfect = 60f, _expectedTimeVeryGood = 120f, _expectedTimeGood = 180f;
     public Text playerName, welcomeText, alertText, placeholderText, timerText;
-    public GameObject setNamePanel;
+    public GameObject setNamePanel, starPrefab;
+    public Transform starParent;
     public Button PrevButton, NextButton;
     private bool _isTimerPaused;
     public Sprite[] medalSprite;
@@ -164,15 +165,32 @@ public class menuScript_ : MonoBehaviour
 
     public void SetMedal()
     {
-        if(timer<_expectedTimeGold)
+        if(timer<_expectedTimePerfect)
         {
-            medalImage.sprite = medalSprite[0];
-        } else if(timer<_expectedTimeSilver)
+            InstantiateStars(4);
+        } 
+        else if(timer<_expectedTimeVeryGood)
         {
-            medalImage.sprite = medalSprite[1];
-        } else
+            InstantiateStars(3);
+        } 
+        else if(timer<_expectedTimeGood)
         {
-            medalImage.sprite = medalSprite[2];
+            InstantiateStars(2);
+        } 
+        else
+        {
+            InstantiateStars(1);
         }
+    }
+
+    void InstantiateStars(int amt)
+    {
+        for(int i=0;i<amt;i++)
+        {
+            GameObject star = Instantiate(starPrefab, starParent.position, Quaternion.identity);
+            star.transform.localScale = new Vector3(1,1,1);
+            star.transform.parent = starParent;
+        }
+        
     }
 }
